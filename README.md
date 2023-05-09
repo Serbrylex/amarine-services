@@ -21,7 +21,7 @@ Para asignar un comentario que haga referencia a tus cambios
 - git commit -m "comentario que quieras"
 
 Para subir tus cambios al repositorio (https://github.com/PrxLuis/AMarine-Services)
-- git push origin develop
+- git push origin main
 
 # Estructura del proyecto
 
