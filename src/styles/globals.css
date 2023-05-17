@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #EEEEEE;
 }
 
 a {
@@ -45,3 +46,47 @@ a {
     background: black;
   }
 } */
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;700&display=swap');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* .phrase  */
+
+.phrase::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.phrase::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.phrase::-webkit-scrollbar-button:increment,.phrase::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.phrase::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.phrase::-webkit-scrollbar-thumb {
+    background-color: #E5E7E9;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.phrase::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+/* .footer__card */
+
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
