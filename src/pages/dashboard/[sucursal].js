@@ -69,20 +69,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme, toColor = 'red' })
     backgroundColor: toColor,
   },
 }));
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Dataset 2',
-      data: labels.map(() => faker.number.int({ min: 10, max: 1000 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
 
 const Item = styled(Paper)(({ theme, backgroundColor }) => ({
   textAlign: 'center',
@@ -95,17 +82,29 @@ const Item = styled(Paper)(({ theme, backgroundColor }) => ({
 
 
 
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 const DashBoardBySucursal = () => {
     const router = useRouter()
     const sucursal = router.query.sucursal
+
+    
+    const [data, setData] = useState({
+        labels,
+        datasets: [
+            {
+            fill: true,
+            label: 'Dataset 2',
+            data: labels.map(() => faker.number.int({ min: 10, max: 1000 })),
+            borderColor: 'rgb(53, 162, 235)',
+            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            },
+        ],
+    })
+
     const [datos, setDatos] = useState({
         coords: [18, -92],
         name: ''
     })
-
-    useEffect(()=>{
-        console.log(datos)
-    }, [datos])
 
     useEffect(()=>{
 
@@ -144,6 +143,18 @@ const DashBoardBySucursal = () => {
             }
 
             setDatos(data)
+            setData({
+                labels,
+                datasets: [
+                    {
+                    fill: true,
+                    label: 'Dataset 2',
+                    data: labels.map(() => faker.number.int({ min: 10, max: 1000 })),
+                    borderColor: 'rgb(53, 162, 235)',
+                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                    },
+                ],
+            })
         }
     }, [sucursal])
 
