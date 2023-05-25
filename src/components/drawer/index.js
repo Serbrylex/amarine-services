@@ -17,11 +17,16 @@ const Drawer = () => {
 
 
   return (
-    <Box sx={{
-      display: 'flex',
-      width: '20vw',
-      height: '90vh'
-    }}>
+    <Box
+      sx={{
+        width: '20vw',
+        height: '100vh',
+        position: '-webkit-sticky',
+        position: 'sticky', 
+        top: 0,
+        display: 'flex',
+      }}
+    >
       <Container id='events_handler'>
           <Box
             sx={{
