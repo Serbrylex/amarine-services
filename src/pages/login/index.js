@@ -53,7 +53,7 @@ const Login = () => {
       const expiration = fechaManana.toUTCString();
       if (response.status === 200) {
         document.cookie = `Token=Token ${response.data.token};expires=${expiration};path=/`
-        router.push('/dashboard')
+        router.push('/')
       }
     })
     .catch(error => {
