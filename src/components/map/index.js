@@ -1,8 +1,8 @@
 import { MapContainer, TileLayer } from 'react-leaflet' 
 
-import React, {useEffect} from 'react'
-import { Marker } from 'react-leaflet'
-import { Box, Typography  } from '@mui/material'
+import React from 'react'
+import { Marker, Tooltip } from 'react-leaflet'
+import { useRouter } from 'next/router'
 
 import L from 'leaflet'
 
@@ -19,23 +19,34 @@ const IconLocation = L.icon({
     className: 'leaflet-venue-icon'
 })
 
-const Markers = ({ location }) => (
-    <Marker position={location} icon={IconLocation} />
+const Markers = ({ children, location }) => (
+    <Marker position={location} icon={IconLocation}>
+        {children}
+    </Marker>
 )
 
-const Map = () => {
+const Map = ({ sucursales }) => {
+
+    const router = useRouter()
+
+    if (!sucursales) return null
 
     return (
         <MapContainer center={[18, -92]} zoom={4}>
             <TileLayer 
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Markers location={[18.003511574398956, -92.98362654472939]} />
-            <Markers location={[22.26548427983087, -97.87491935447295]} />
-            <Markers location={[18.681406437828855, -91.74897796829059]} />
-            <Markers location={[20.538383292017386, -97.39254363418814]} />
-            <Markers location={[26.0842084874065, -98.31444467156702]} />
-            <Markers location={[19.17227844429708, -96.22513406341882]} />
+            {sucursales.map((sucursal, idx) => (
+                <Markers 
+                    location={[sucursal.latitud, sucursal.longitud]} key={idx}
+                >
+                    <Tooltip 
+                        direction="bottom" offset={[0, 20]} opacity={1} 
+                    >
+                        {sucursal.nombre}
+                    </Tooltip>
+                </Markers>
+            ))}
         </MapContainer>
     )
 }

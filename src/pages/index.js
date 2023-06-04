@@ -1,5 +1,5 @@
 // react
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // next
 import dynamic from 'next/dynamic'
@@ -31,6 +31,9 @@ import 'react-circular-progressbar/dist/styles.css';
 import { Line } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { styled } from '@mui/material/styles';
+
+// hooks
+import GetDashboardInfo from '@hooks/useGetDashboardInfo'
 
 ChartJS.register(
     CategoryScale,
@@ -73,7 +76,7 @@ export const data = {
   datasets: [
     {
       fill: true,
-      label: 'Dataset 2',
+      label: 'Bajas Totales',
       data: labels.map(() => faker.number.int({ min: 10, max: 1000 })),
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
@@ -92,6 +95,36 @@ const Item = styled(Paper)(({ theme, backgroundColor }) => ({
 
 
 const Dashboard = () => {
+
+    const { sucursales, bajas, altas } = GetDashboardInfo()
+    const [movimientos, setMovimientos] = useState(undefined)
+    const [motivosBajas, setMotivosBajas] = useState(undefined)
+
+    useEffect(()=>{
+
+        if (bajas && altas) {
+            const total = bajas.length + altas.length
+            setMovimientos({
+                bajas: parseInt(100 / total * bajas.length),
+                altas: parseInt(100 / total * altas.length)
+            })
+            // abandono, renuncua
+            let motivos = [0, 0]
+            bajas.map(baja => {
+                if (baja.motivo === 'False') {
+                    motivos[0] += 1
+                } else {
+                    motivos[1] += 1
+                }
+            })
+            const totalMotivos = motivos[0] + motivos[1]
+            setMotivosBajas({
+                abandono: parseInt(100 / totalMotivos * motivos[0]),
+                renuncia: parseInt(100 / totalMotivos * motivos[1])
+            })
+        }
+    }, [sucursales, bajas, altas])
+
     return (
         <MainLayout>
             <Box sx={{
@@ -102,15 +135,35 @@ const Dashboard = () => {
                 <Box sx={{ width: '40%', height: '45vh'}}>
                     <Grid container component="main" sx={{ height: '100%', width: '100%' }}>
                         <Grid item xs={6} sx={{ height: '40%', display: 'flex', alignItems: 'center' }}>
-                            <Item elevation={10} backgroundColor='#000000'>
-                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>8</Typography>
+                            <Item elevation={10} 
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor:'#000000'
+                                }}
+                            >
+                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
+                                    {bajas ? bajas.length : 0}
+                                </Typography>
                                 <Typography>Bajas de ingresos recientes</Typography>
                             </Item>
                         </Grid>
                         <Grid item xs={6} sx={{ height: '40%', display: 'flex', 
                             alignItems: 'center' }}>
-                            <Item elevation={10} backgroundColor='#59CE8F'>
-                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>10</Typography>
+                            <Item elevation={10} 
+                                sx={{
+                                    backgroundColor: '#59CE8F',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
+                                    {altas ? altas.length : 0}
+                                </Typography>
                                 <Typography>Ingresos recientes</Typography>
                             </Item>
                         </Grid>
@@ -123,7 +176,10 @@ const Dashboard = () => {
                                 width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
                                 padding: '5%', borderRadius: '5px'
                             }}>
-                                <CircularProgressbar value={66} text={`${66}%`} />
+                                <CircularProgressbar 
+                                    value={movimientos ? movimientos.bajas : 0} 
+                                    text={`${movimientos ? movimientos.bajas : 0}%`} 
+                                />
                             </Box>
                             <p>Bajas de ingreso total</p>
                         </Grid>
@@ -136,7 +192,10 @@ const Dashboard = () => {
                                 width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
                                 padding: '5%', borderRadius: '5px'
                             }}>
-                                <CircularProgressbar value={66} text={`${66}%`} />
+                                <CircularProgressbar 
+                                    value={movimientos ? movimientos.altas : 0} 
+                                    text={`${movimientos ? movimientos.altas : 0}%`} 
+                                />
                             </Box>
                             <p>Ingresos recientes</p>
                         </Grid>
@@ -152,7 +211,7 @@ const Dashboard = () => {
                 justifyContent: 'space-around'
             }}>
                 <Box sx={{ width: '45%', height: '40vh', position: 'relative' }}>
-                    <Map />
+                    <Map sucursales={sucursales}/>
                 </Box>
                 <Box sx={{ width: '45%', height: '40vh'}}>
                     <Paper sx={{ 
@@ -176,9 +235,13 @@ const Dashboard = () => {
                                     <Typography sx={{ 
                                         position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
                                     }}>
-                                        30%
+                                        {motivosBajas ? motivosBajas.abandono : 0}%
                                     </Typography>
-                                    <BorderLinearProgress variant="determinate" value={30} toColor='red'/>
+                                    <BorderLinearProgress 
+                                        variant="determinate" 
+                                        value={motivosBajas ? motivosBajas.abandono : 0} 
+                                        sx={{backgroundColor:'red'}}
+                                    />
                                 </Box>
                             </Box>
 
@@ -197,9 +260,12 @@ const Dashboard = () => {
                                     <Typography sx={{ 
                                         position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
                                     }}>
-                                        70%
+                                        {motivosBajas ? motivosBajas.renuncia : 0}%
                                     </Typography>
-                                    <BorderLinearProgress variant="determinate" value={70} toColor='#DC5F00'/>
+                                    <BorderLinearProgress 
+                                        variant="determinate" 
+                                        value={motivosBajas ? motivosBajas.renuncia : 0} sx={{backgroundColor:'#DC5F00'}}
+                                    />
                                 </Box>
                             </Box>
                         </Box>

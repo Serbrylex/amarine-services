@@ -13,6 +13,8 @@ import { Box, Typography, Button, Paper } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
+import GetEverythingCuestionario from '@hooks/useGetEverythingCuestionario'
+
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -34,15 +36,14 @@ const posibilities = ['a', 'b', 'c', 'd', 'e']
 const Respuesta = ({ num, text, callback, contadorPreguntas, currentAnswer }) => (
     <Box 
         sx={{ 
-            width: '100%', height: '40px', border: currentAnswer ? '1px solid #33B1FF' : '1px solid grey', borderRadius: '5px',
+            width: '100%', minHeight: '40px', border: currentAnswer ? '1px solid #33B1FF' : '1px solid grey', borderRadius: '5px',
             display: 'flex', margin: '10px 0'
         }} 
         onClick={()=>callback(num, contadorPreguntas)}
     >
         <Typography sx={{
             fontWeight: 'bold',
-            width: '40px',
-            height: '38px',
+            width: '5%',
             borderRadius: '5px 0 0 5px',
             backgroundColor: currentAnswer ? '#33B1FF' : '#24385B',
             color: currentAnswer ? 'black' : 'white',
@@ -50,7 +51,7 @@ const Respuesta = ({ num, text, callback, contadorPreguntas, currentAnswer }) =>
             alignItems: 'center',
             justifyContent: 'center'
         }}>{posibilities[num]}</Typography>
-        <Typography sx={{ paddingLeft: '10px', display: 'flex', alignItems: 'center' }}>{text}</Typography>
+        <Typography sx={{ padding: '5px 5px 5px 10px', display: 'flex', alignItems: 'center', width: '95%' }}>{text}</Typography>
     </Box>
 )
 
@@ -58,53 +59,14 @@ const Evaluacion = () => {
     const [preview, setPreview] = useState(false)
     const [contadorPreguntas, setContadorPreguntas] = useState(0)
     const [isChangingAnswer, setIsChangingAnswer] = useState(false)
-    const [preguntas, setPreguntas] = useState([
-        {
-            pregunta: 'Pregunta número 1',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 2',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 3',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 4',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 5',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 6',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 7',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 8',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 9',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        },
-        {
-            pregunta: 'Pregunta número 10',
-            respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
-        }
-    ])
     const [respuestas, setRespuestas] = useState([])
+
     const router = useRouter()
 
+    const { questionario, handleValidateAnswers } = GetEverythingCuestionario()
+
     const nextQuestion = () => {
-        if (preguntas.length > contadorPreguntas+1) {
+        if (questionario.preguntas.length > contadorPreguntas+1) {
             setContadorPreguntas(contadorPreguntas+1)
         } else {
             // terminaste, validación
@@ -122,7 +84,7 @@ const Evaluacion = () => {
     }
 
     const handlePreviewExam = () => {
-        setContadorPreguntas(preguntas.length - 1)
+        setContadorPreguntas(questionario.preguntas.length - 1)
         setPreview(true)
     }
 
@@ -132,10 +94,14 @@ const Evaluacion = () => {
         setIsChangingAnswer(true)
     }
 
-    const handleSendAnswers = () => {
-        alert('las respuestas se han enviado')
-        router.push('/evaluacion/resultados/122312')
+    const handleSendAnswers = async () => {
+        const resultado = await handleValidateAnswers(respuestas)
+
+        alert(resultado)
+        // router.push('/evaluacion/resultados/122312')
     }
+
+    if (!questionario) return null
 
     if (preview) {
         return (
@@ -149,10 +115,10 @@ const Evaluacion = () => {
                             <Typography sx={{ fontWeight: '600' }}>Encuesta 360 AMarine Services</Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Typography sx={{ marginRight: '10px' }}>Pregunta</Typography>
-                                <Typography>{contadorPreguntas + 1} de {preguntas.length}</Typography>
+                                <Typography>{contadorPreguntas + 1} de {questionario.preguntas.length}</Typography>
                             </Box>
                         </Box>  
-                        <Progressbar progress={(100/preguntas.length) * (contadorPreguntas+1)} />
+                        <Progressbar progress={(100/questionario.preguntas.length) * (contadorPreguntas+1)} />
                     </Box>
 
                     <Box sx={{ width: '100%', height: 'auto', color: 'white' }}>
@@ -164,15 +130,15 @@ const Evaluacion = () => {
                         </Typography>
 
                         <Box>
-                            {preguntas.map((pregunta, ind)=>(
+                            {questionario.preguntas.map((pregunta, ind)=>(
                                 <Box 
                                     sx={{ 
                                         display: 'flex', flexDirection: 'column',
-                                        margin: '20px 0'
+                                        margin: '30px 0'
                                     }} 
                                     key={ind}
                                 >
-                                    <Typography><span>{ind + 1}</span> {pregunta.pregunta}</Typography>
+                                    <Typography><span>{ind + 1}.</span> {pregunta.pregunta}</Typography>
                                     <Box sx={{
                                         display: 'flex',
                                         justifyContent: 'space-between',
@@ -181,10 +147,11 @@ const Evaluacion = () => {
                                         border: '1px solid white',
                                         borderRadius: '5px',
                                         width: '100%',
-                                        height: '40px',
-                                        padding: '0 10px'
+                                        minHeight: '40px',
+                                        padding: '5px 10px',
+                                        marginTop: '5px'
                                     }}>
-                                        <Typography sx={{ color: 'white' }}>{pregunta.respuestas[respuestas[ind]]}</Typography>
+                                        <Typography sx={{ color: 'white' }}>{pregunta.respuestas[respuestas[ind]].respuesta}</Typography>
                                         <Typography sx={{ color: '#33B1FF', cursor: 'pointer' }} onClick={()=>handleChangeAnswer(ind)}>
                                             CAMBIAR
                                         </Typography>
@@ -219,19 +186,19 @@ const Evaluacion = () => {
     return (
         <QuestionarioLayout>
             {/* header */}
-            <Box sx={{ height: '75vh', width: '100%', display: 'flex', 
+            <Box sx={{ minHeight: '75vh', width: '100%', display: 'flex', 
                 flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                padding: '0 20%'
+                padding: '50px 20%'
             }}>
                 <Box sx={{ width: '100%' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'white', width: '100%', marginBottom: '10px' }}>
                         <Typography sx={{ fontWeight: '600' }}>Encuesta 360 AMarine Services</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography sx={{ marginRight: '10px' }}>Pregunta</Typography>
-                            <Typography>{contadorPreguntas + 1} de {preguntas.length}</Typography>
+                            <Typography>{contadorPreguntas + 1} de {questionario.preguntas.length}</Typography>
                         </Box>
                     </Box>  
-                    <Progressbar progress={(100/preguntas.length) * (contadorPreguntas+1)} />
+                    <Progressbar progress={(100/questionario.preguntas.length) * (contadorPreguntas+1)} />
                 </Box>
 
                 <Box sx={{ width: '100%', height: 'auto', color: 'white' }}>
@@ -239,13 +206,13 @@ const Evaluacion = () => {
                         component='h1' 
                         sx={{ fontWeight: 'bold', fontSize: '30px', margin: '30px 0' }}
                     >
-                        {preguntas[contadorPreguntas].pregunta}
+                        {questionario.preguntas[contadorPreguntas].pregunta}
                     </Typography>
                     
                     <Box>
-                        {preguntas[contadorPreguntas].respuestas.map((res, ind)=>(
+                        {questionario.preguntas[contadorPreguntas].respuestas.map((res, ind)=>(
                             <Respuesta 
-                                key={ind} num={ind} text={res} callback={handleSelectAnswer} 
+                                key={ind} num={ind} text={res.respuesta} callback={handleSelectAnswer} 
                                 contadorPreguntas={contadorPreguntas} 
                                 currentAnswer={respuestas[contadorPreguntas] !== undefined && respuestas[contadorPreguntas] === ind}
                             />
@@ -267,7 +234,7 @@ const Evaluacion = () => {
                     SALTAR PREGUNTA
                 </Button>
                 
-                {isChangingAnswer || preguntas.length == contadorPreguntas + 1 ? 
+                {isChangingAnswer || questionario.preguntas.length == contadorPreguntas + 1 ? 
                     <Button 
                         variant="contained" sx={{ fontSize: '12px', fontWeight: 'bold', marginTop: '20px', backgroundColor: '#33B1FF', marginLeft: 'auto' }}
                         onClick={handlePreviewExam}

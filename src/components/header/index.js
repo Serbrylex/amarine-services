@@ -6,12 +6,17 @@ import {
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import PersonIcon from '@mui/icons-material/Person';
+
+import { useRouter } from 'next/router'
+
 const pages = [];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const router = useRouter()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -28,11 +33,20 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+
+  const handleLogout = () => {
+    const expiration = new Date(-1).toUTCString()
+    document.cookie = `Token=Token;expires=${expiration};path=/`
+    router.push('login')
+  }
+
   return (
     <AppBar position="static" sx={{ height:'10vh', backgroundColor: '#061A23' }}>
       <Container maxWidth="xl" sx={{ height:'100%' }}>
         <Toolbar disableGutters sx={{ height:'100%' }}>
-          <figure style={{ width: 'auto', height: '50px', zIndex: 100, margin: 'auto 0' }}>
+          <figure style={{ width: 'auto', height: '50px', zIndex: 100, margin: 'auto 0' }} 
+            onClick={()=>router.push('/')}
+          >
             <img
               src='/images/amarine_logo.webp'
               alt='logo'
@@ -109,8 +123,16 @@ const Header = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton onClick={handleOpenUserMenu} 
+                sx={{ 
+                  p: 1, 
+                  color: 'white',
+                  fontSize: '40px',
+                  borderRadius: '100%',
+                  backgroundColor: 'grey !important'
+                }}
+              >
+                <PersonIcon />
               </IconButton>
             </Tooltip>
             <Menu
@@ -129,11 +151,9 @@ const Header = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

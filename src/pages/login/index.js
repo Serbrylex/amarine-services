@@ -12,6 +12,10 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router'
+
+import axios from 'axios';
+
 
 function Copyright(props) {
   return (
@@ -29,13 +33,32 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
+
+  const router = useRouter()
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const formData = new FormData(event.currentTarget);
+    const data = {
+      email: formData.get('email'),
+      password: formData.get('password')
+    }
+    axios.post(`${process.env.API_URL}/login/`, data)
+    .then(response => {
+      console.log(response)
+      // Obtener la fecha de mañana
+      const fechaManana = new Date();
+      fechaManana.setDate(fechaManana.getDate() + 1);
+      // Convertir la fecha de mañana a formato UTC
+      const expiration = fechaManana.toUTCString();
+      if (response.status === 200) {
+        document.cookie = `Token=Token ${response.data.token};expires=${expiration};path=/`
+        router.push('/dashboard')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
   };
 
   return (

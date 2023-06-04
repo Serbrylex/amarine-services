@@ -5,12 +5,14 @@ import dynamic from 'next/dynamic'
 
 import MainLayout from '@layouts/mainLayout'
 
+import GetSocialMedia from '@hooks/useGetSocialMedia'
+
 // Esto mientras uso faker, una vez cambiado puedo quitar el ssr: false
 const CustomizedTables = dynamic(() => import('@components/table'), {
     ssr: false,
 })
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -100,8 +102,8 @@ const createDataTwo = (image) => {
 const secondTable = {
     rows: [
         createDataTwo('/images/facebook.png', ),
-        createDataTwo('/images/Instagram.png', 237),
-        createDataTwo('/images/tik-tok.png', 262)
+        createDataTwo('/images/Instagram.png'),
+        createDataTwo('/images/tik-tok.png')
     ],
     colums: [
         'Redes sociales',
@@ -122,6 +124,7 @@ const secondTable = {
 
 
 const SocialMedia = () => {
+    const { redes, bigTableData } = GetSocialMedia()
 
     return (
         <MainLayout>
@@ -136,7 +139,7 @@ const SocialMedia = () => {
                     <CustomizedTables dataTable={firstTable} />
                 </Box>
                 <Box sx={{ width: '800px' }}>
-                    <CustomizedTables dataTable={secondTable} />
+                    <CustomizedTables dataTable={bigTableData ? bigTableData : secondTable} />
                 </Box>
             </Box>
 
@@ -144,7 +147,7 @@ const SocialMedia = () => {
                 <Box sx={{ 
                     backgroundColor: '#061A23', width: '35vw', height: '30vh', position: 'relative', padding: 0, borderRadius: '5px',
                     display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
+                }}> 
                     <figure style={{ 
                         position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 2, opacity: '0.1', margin: 0, padding: 0, width: '35vw'
                     }}>
@@ -153,7 +156,18 @@ const SocialMedia = () => {
                         />
                     </figure>
                     <Box sx={{ zIndex: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '30vh' }}>
-                        <Bar options={options} data={normaldata} />
+                        <Bar options={options} data={{
+                            labels,
+                            datasets: [
+                                {
+                                label: 'Facebook',
+                                data: bigTableData ? 
+                                    bigTableData.rows[0].data : 
+                                    labels.map(() => faker.number.int({ min: 10, max: 1000 })),
+                                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                }
+                            ],}} 
+                        />
                     </Box>
                 </Box>
 
@@ -169,7 +183,18 @@ const SocialMedia = () => {
                         />
                     </figure>
                     <Box sx={{ zIndex: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '30vh' }}>
-                        <Bar options={options} data={normaldata} />
+                    <Bar options={options} data={{
+                            labels,
+                            datasets: [
+                                {
+                                    label: 'Instagram',
+                                    data: bigTableData ? 
+                                        bigTableData.rows[1].data : 
+                                        labels.map(() => faker.number.int({ min: 10, max: 1000 })),
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                }
+                            ],}} 
+                        />
                     </Box>
                 </Box>
             </Box>
@@ -186,7 +211,18 @@ const SocialMedia = () => {
                         />
                     </figure>
                     <Box sx={{ zIndex: 3, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '30vh' }}>
-                        <Bar options={options} data={normaldata} />
+                        <Bar options={options} data={{
+                            labels,
+                            datasets: [
+                                {
+                                    label: 'Tiktok',
+                                    data: bigTableData ? 
+                                        bigTableData.rows[2].data : 
+                                        labels.map(() => faker.number.int({ min: 10, max: 1000 })),
+                                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                }
+                            ],}} 
+                        />
                     </Box>
                 </Box>
 

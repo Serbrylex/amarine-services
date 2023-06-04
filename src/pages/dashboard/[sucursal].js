@@ -172,14 +172,30 @@ const DashBoardBySucursal = () => {
                 <Box sx={{ width: '40%', height: '45vh'}}>
                     <Grid container component="main" sx={{ height: '100%', width: '100%' }}>
                         <Grid item xs={6} sx={{ height: '40%', display: 'flex', alignItems: 'center' }}>
-                            <Item elevation={10} backgroundColor='#000000'>
+                            <Item elevation={10} 
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor:'#000000'
+                                }}
+                            >
                                 <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>8</Typography>
                                 <Typography>Bajas de ingresos recientes</Typography>
                             </Item>
                         </Grid>
                         <Grid item xs={6} sx={{ height: '40%', display: 'flex', 
                             alignItems: 'center' }}>
-                            <Item elevation={10} backgroundColor='#59CE8F'>
+                            <Item elevation={10}
+                                sx={{
+                                    backgroundColor: '#59CE8F',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
                                 <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>10</Typography>
                                 <Typography>Ingresos recientes</Typography>
                             </Item>
