@@ -25,7 +25,7 @@ const Evaluacion = () => {
                 backgroundColor: '#121F3D'
             }}>
                 <Box sx={{ width: '20vw', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src='/images/bo.png' alt='evaluacion image' width='100%' height='auto'/>
+                    <img src='/images/evaluacion-360-grados.png' alt='evaluacion image' width='100%' height='auto'/>
                 </Box>
                 <Box sx={{ width: '50vw', color: 'white' }}>
                     <Typography component='h1' sx={{ fontWeight: 'bold', fontSize: '30px' }}>Desarrolla el talento de tu equipo</Typography>

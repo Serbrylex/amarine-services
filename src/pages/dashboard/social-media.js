@@ -103,7 +103,7 @@ const secondTable = {
     rows: [
         createDataTwo('/images/facebook.png', ),
         createDataTwo('/images/Instagram.png'),
-        createDataTwo('/images/tik-tok.png')
+        createDataTwo('/images/tiktok.webp')
     ],
     colums: [
         'Redes sociales',
