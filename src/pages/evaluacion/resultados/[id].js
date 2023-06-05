@@ -2,6 +2,7 @@ import React from 'react';
 
 // next
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react'
 import Head from 'next/head';
 
 // components
@@ -9,7 +10,8 @@ import MainLayout from '@layouts/mainLayout'
 import RadarChart from '@components/charts/radar'
 
 // MUI
-import { Box, Typography, Button, Paper } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
+import PrintIcon from '@mui/icons-material/Print';
 
 
 import { faker } from '@faker-js/faker';
@@ -102,92 +104,241 @@ export const dataRadar = {
 const Resultados = () => {
     const router = useRouter()
     const id = router.query.id
+
+    const [user, setUser] = useState(undefined)
+
+    useEffect(()=>{
+        if (window) {
+            const userJson = JSON.parse(window.localStorage.getItem('user'))
+            setUser(userJson)
+        }
+    }, [])
+
+    const handlePrint = () => {
+        alert('nani')
+    }
+
     return (
         <MainLayout>
             <Head>
                 <title>AMarine Services | Resultados de Evaluacion</title>
             </Head>
-
-            {/*Header resultados de evaluación*/}
+            {/*Container*/}
             <Box 
-                sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', height: '20vh' }}
+                sx={{
+                    width: '90%', height: 'auto',
+                    margin: '20px 5%'
+                }}
             >
-                <Box sx={{ textAlign: 'left' }}>
-                    <Typography component='h2'>
-                        Josesito Alphonso
-                    </Typography>
-                    <Typography>
-                        Area: Analista
-                    </Typography>
-                    <Typography>
-                        Departamento: Marketing
-                    </Typography>
-                </Box>
+                {/*Header resultados de evaluación*/}
+                <Box 
+                    sx={{ 
+                        display: 'flex', justifyContent: 'space-between', width: '90%', height: '12vh',
+                        margin: '10px 5% 0 5%'
+                    }}
+                >
+                    <Box sx={{ textAlign: 'left' }}>
+                        <Typography component='h2'>
+                            Usuario: {user ? user.usuario.first_name : ''}
+                        </Typography>
+                        <Typography>
+                            Area: Analista
+                        </Typography>
+                        <Typography>
+                            Departamento: Marketing
+                        </Typography>
+                    </Box>
 
-                <Box sx={{ textAlign: 'right' }}>
-                    <Typography component='h2'>
-                        Supervidor: Luis
-                    </Typography>
-                    <Typography>
-                        Periodo: de 21 noviembre 2022 al 20 mayo 2023
-                    </Typography>
-                </Box>
-            </Box>
-
-            <hr />
-
-            {/* Seccion de resultados */}
-            <Box>
-                <Typography component={'h3'}>RESULTADOS OBTENIDOS</Typography>
-
-                {/*Primera seccion*/}
-                <Box sx={{ width: '500px', height: 'auto', margin: '0 auto' }}>
-                    <Bar options={options} data={data} />
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginLeft: '15px' }}>
-                        <Typography>Autoevaluación</Typography>
-                        <Typography>Supervisor</Typography>
+                    <Box sx={{ textAlign: 'right' }}>
+                        <Typography component='h2'>
+                            Supervidor: Luis
+                        </Typography>
+                        <Typography>
+                            Periodo: de 21 noviembre 2022 al 20 mayo 2023
+                        </Typography>
+                        <Button variant="outlined" sx={{ margin: '5px 0' }} startIcon={<PrintIcon />} onClick={handlePrint}>
+                            Imprimir resultados
+                        </Button>
                     </Box>
                 </Box>
 
-                {/*Primera seccion*/}
+                <hr />
 
-                <br/>
+                {/* Seccion de resultados */}
+                <Box>
+                    <Typography component={'h3'}>RESULTADOS OBTENIDOS</Typography>
 
-                <Typography component={'h3'}>RESULTADOS POR GRUPOS DE INDICADORES</Typography>
-                <Typography component={'p'}>
-                    Puntuación obtenida para cada grupo de indicadores o comentarios realizados para cada uno de los grupos. Las notas superiores o iguales al valor
-                    esperado aparecen en verde mientras que los valores inferiores aparecen en rojo.
-                </Typography>
+                    {/*Primera seccion*/}
+                    <Box sx={{ width: '500px', height: 'auto', margin: '0 auto' }}>
+                        <Bar options={options} data={data} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', marginLeft: '15px' }}>
+                            <Typography>Autoevaluación</Typography>
+                            <Typography>Supervisor</Typography>
+                        </Box>
+                    </Box>
 
-                <Box sx={{ width: '50vw', margin: '0 auto' }}>
-                    <RadarChart data={dataRadar} />
 
-                    <Box sx={{ 
-                        border: '1px solid red', width: 'fit-content', height: 'auto',
-                        margin: '0 0 0 auto'
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    {/*segunda seccion*/}
+                    <Typography component={'h3'}>RESULTADOS POR GRUPOS DE INDICADORES</Typography>
+                    <Typography component={'p'}>
+                        Puntuación obtenida para cada grupo de indicadores o comentarios realizados para cada uno de los grupos. Las notas superiores o iguales al valor
+                        esperado aparecen en verde mientras que los valores inferiores aparecen en rojo.
+                    </Typography>
+
+                    <Box sx={{ width: '50vw', margin: '0 auto' }}>
+                        <RadarChart data={dataRadar} />
+
+                        <Box sx={{ 
+                            width: 'fit-content', height: 'auto',
+                            margin: '0 0 0 auto'
+                        }}>
+                            <Box sx={{ display: 'flex', margin: '10px 0' }}>
+                                <div style={{ width: '20px', height: '20px', backgroundColor: '#428DD7', marginRight: '5px' }}></div> 
+                                <Typography>
+                                    Autoevaluación
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', margin: '10px 0' }}>
+                                <div style={{ width: '20px', height: '20px', backgroundColor: '#CA1954', marginRight: '5px' }}></div> 
+                                <Typography>
+                                    Requerida
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', margin: '10px 0' }}>
+                                <div style={{ width: '20px', height: '20px', backgroundColor: '#EAB419', marginRight: '5px' }}></div> 
+                                <Typography>
+                                    Evaluacion
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+
+                    <br />
+                    {/*tercera seccion foda*/}
+
+                    <Box sx={{
+                        width: '90%',
+                        heigth: '500px',
+                        margin: '20px auto',
+                        display: 'flex',
+                        flexDirection: 'column'
                     }}>
-                        <Box sx={{ display: 'flex', margin: '10px 0' }}>
-                            <div style={{ width: '20px', height: '20px', backgroundColor: '#428DD7', marginRight: '5px' }}></div> 
-                            <Typography>
-                                Autoevaluación
-                            </Typography>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                margin: '20px 0',
+                                display: 'flex'
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    backgroundColor: '#fff1e6',
+                                    width: '48%',
+                                    margin: '0 2%',
+                                }}
+                            >
+                                <Typography variant="h6"
+                                    sx={{
+                                        padding: '10px 5px',
+                                        borderRadius: '5px',
+                                        height: '50px',
+                                        backgroundColor: '#ffc89d'
+                                    }}    
+                                >
+                                    Fortalezas
+                                </Typography>
+                                <ol style={{ textAlign: 'left' }}>
+                                    <li>Fortaleza 1</li>
+                                    <li>Fortaleza 2</li>
+                                    <li>Fortaleza 3</li>
+                                </ol>
+                            </Box>
+                            <Box
+                                sx={{
+                                    backgroundColor: '#e2ece9',
+                                    width: '48%',
+                                    margin: '0 2%',
+                                }}
+                            >
+                                <Typography variant="h6"
+                                    sx={{
+                                        padding: '10px 5px',
+                                        borderRadius: '5px',
+                                        height: '50px',
+                                        backgroundColor: '#b7d2c8'
+                                    }}    
+                                >
+                                    Oportunidades
+                                </Typography>
+                                <ol style={{ textAlign: 'left' }}>
+                                    <li>Valores de la organización</li>
+                                    <li>Competencias estrategicas</li>
+                                    <li>Competencias digitales</li>
+                                    <li>Idiomas</li>
+                                </ol>
+                            </Box>
                         </Box>
-                        <Box sx={{ display: 'flex', margin: '10px 0' }}>
-                            <div style={{ width: '20px', height: '20px', backgroundColor: '#CA1954', marginRight: '5px' }}></div> 
-                            <Typography>
-                                Requerida
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', margin: '10px 0' }}>
-                            <div style={{ width: '20px', height: '20px', backgroundColor: '#EAB419', marginRight: '5px' }}></div> 
-                            <Typography>
-                                Evaluacion
-                            </Typography>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                margin: '20px 0',
+                                display: 'flex'
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    backgroundColor: '#fde2e4',
+                                    width: '48%',
+                                    margin: '0 2%',
+                                }}
+                            >
+                                <Typography variant="h6"
+                                    sx={{
+                                        padding: '10px 5px',
+                                        borderRadius: '5px',
+                                        height: '50px',
+                                        backgroundColor: '#f7b2b5'
+                                    }}    
+                                >
+                                    Debilidades
+                                </Typography>
+                                <ol style={{ textAlign: 'left' }}>
+                                    <li>Debilidad 1</li>
+                                    <li>Debilidad 2</li>
+                                    <li>Debilidad 3</li>
+                                </ol>
+                            </Box>
+                            <Box
+                                sx={{
+                                    backgroundColor: '#e2ece9',
+                                    width: '48%',
+                                    margin: '0 2%',
+                                }}
+                            >
+                                <Typography variant="h6"
+                                    sx={{
+                                        padding: '10px 5px',
+                                        borderRadius: '5px',
+                                        height: '50px',
+                                        backgroundColor: '#b7d2c8'
+                                    }}    
+                                >
+                                    Amenazas
+                                </Typography>
+                                <ol style={{ textAlign: 'left' }}>
+                                    <li>Amenaza 1</li>
+                                    <li>Amenaza 2</li>
+                                    <li>Amenaza 3</li>
+                                </ol>
+                            </Box>
                         </Box>
                     </Box>
                 </Box>
             </Box>
-
         </MainLayout>
     )
 }

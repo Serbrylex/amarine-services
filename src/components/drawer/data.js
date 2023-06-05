@@ -9,7 +9,7 @@ const useData = () => {
     setData([
       {
         title: 'Dashboard',
-        link: '/#',
+        link: '/',
         icons: relateIconToName('AssessmentOutlinedIcon'), 
         color: 'primary',
         elements: [{
@@ -57,37 +57,45 @@ const useData = () => {
         ]},
         {
           title: 'Empleados',
-          link: '/#',
+          link: '/empleados',
           icons: relateIconToName('AssignmentIndOutlinedIcon'), 
           color: 'primary',
           elements: [
             {
-              title: 'Lista',
-              link: '#',
+              title: 'Pase de Lista',
+              link: '/empleados/lista',
               icons: null, 
               color: 'primary'
             },
             {
-              title: 'Productividad',
-              link: '#',
+              title: 'Dashboard',
+              link: '/empleados',
+              icons: null, 
+              color: 'primary'
+            }
+          ]
+        },
+        {
+          title: 'Encuestas',
+          link: '/encuestas',
+          icons: relateIconToName('QuizIcon'), 
+          color: 'primary',
+          elements: [
+            {
+              title: 'Practicas RH',
+              link: '/encuestas/practicas-rh/',
               icons: null, 
               color: 'primary'
             },
             {
-              title: 'Evaluación',
-              link: '/evaluacion/',
+              title: 'Encuesta a colaboradores',
+              link: '/encuestas/colaboradores/',
               icons: null, 
               color: 'primary'
             },
             {
-              title: 'Resultados',
-              link: '/evaluacion/resultados/1/',
-              icons: null, 
-              color: 'primary'
-            },
-            {
-              title: 'Bajas del personal',
-              link: '#',
+              title: 'Encuesta a jefes de area',
+              link: '/encuestas/jefes-area',
               icons: null, 
               color: 'primary'
             }

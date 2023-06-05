@@ -98,7 +98,7 @@ const Evaluacion = () => {
         const resultado = await handleValidateAnswers(respuestas)
 
         alert(resultado)
-        // router.push('/evaluacion/resultados/122312')
+        router.push('/evaluacion/resultados/3/')
     }
 
     if (!questionario) return null

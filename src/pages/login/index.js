@@ -52,6 +52,8 @@ const Login = () => {
       // Convertir la fecha de mañana a formato UTC
       const expiration = fechaManana.toUTCString();
       if (response.status === 200) {
+        const data = JSON.stringify(response.data.usuario)
+        window.localStorage.setItem('user', data)
         document.cookie = `Token=Token ${response.data.token};expires=${expiration};path=/`
         router.push('/')
       }

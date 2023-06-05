@@ -18,6 +18,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
+  padding: '7px 10px'
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -31,40 +32,33 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const Rows = ({ rows }) => {
+const Rows = ({ rows, handleAddToList, handleModifyAsistencia }) => {
     return (
         <>
             {rows.map((row, idx) => (
                 <StyledTableRow key={idx}>
-                    {row?.image &&
-                    <StyledTableCell component="th" scope="row">
-                        <Image
-                            src={row.image}
-                            height={30}
-                            width={30}
-                            fit="cover"
-                            duration={ 3000 }
-                            easing= 'cubic-bezier(0.7, 0, 0.6, 1)'
-                            errorIcon={ true }
-                            shift={null}
-                            distance="100px"
-                            shiftDuration={ 900 }
-                            bgColor="inherit"
-                            alt="facebook"
-                        />
-                    </StyledTableCell>}
-                    {row.data.map((d, index)=>(
-                        <StyledTableCell align="right" key={index}>{d}</StyledTableCell>
-                    ))}
+                    {
+                        row.data.map((d, index)=>(
+                            <StyledTableCell align="left" 
+                                onClick={
+                                    () => index === 3 ? handleModifyAsistencia(idx) : 
+                                        handleAddToList(idx)
+                                }
+                                key={index}
+                            >
+                                {d === true ? 'Asistió' : d === false ? 'No asistió' : d}
+                            </StyledTableCell>
+                        ))
+                    }
                 </StyledTableRow>
             ))}
         </>
     )
 }
 
-const CustomizedTables = ({ dataTable }) => {
+const ListaTable = ({ dataTable, handleAddToList = () => {}, handleModifyAsistencia = () => {} }) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -74,11 +68,14 @@ const CustomizedTables = ({ dataTable }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <Rows rows={dataTable.rows}/>
+          <Rows
+            rows={dataTable.rows} handleAddToList={handleAddToList} 
+            handleModifyAsistencia={handleModifyAsistencia}
+        />
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
 
-export default CustomizedTables
+export default ListaTable

@@ -10,7 +10,7 @@ const GetEverythingCuestionario = () => {
         const headers = {
             'Authorization': getCookie('Token')
         }
-        axios.get(`${process.env.API_URL}/questionario/2/`, { headers })
+        axios.get(`${process.env.API_URL}/questionario/3/`, { headers })
         .then(response => {
             if (response.status === 200) {
                 console.log(response.data)
@@ -32,7 +32,7 @@ const GetEverythingCuestionario = () => {
             data.push(questionario.preguntas[x].respuestas[respuestas[x]].pk)
         }
         
-        const response = await axios.post(`${process.env.API_URL}/questionario/2/validate/`,
+        const response = await axios.post(`${process.env.API_URL}/questionario/3/validate/`,
             data,
             { headers }
         )

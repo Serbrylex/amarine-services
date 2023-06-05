@@ -36,25 +36,8 @@ const Rows = ({ rows }) => {
         <>
             {rows.map((row, idx) => (
                 <StyledTableRow key={idx}>
-                    {row?.image &&
-                    <StyledTableCell component="th" scope="row">
-                        <Image
-                            src={row.image}
-                            height={30}
-                            width={30}
-                            fit="cover"
-                            duration={ 3000 }
-                            easing= 'cubic-bezier(0.7, 0, 0.6, 1)'
-                            errorIcon={ true }
-                            shift={null}
-                            distance="100px"
-                            shiftDuration={ 900 }
-                            bgColor="inherit"
-                            alt="facebook"
-                        />
-                    </StyledTableCell>}
                     {row.data.map((d, index)=>(
-                        <StyledTableCell align="right" key={index}>{d}</StyledTableCell>
+                        <StyledTableCell align="left" key={index}>{d}</StyledTableCell>
                     ))}
                 </StyledTableRow>
             ))}
@@ -62,9 +45,11 @@ const Rows = ({ rows }) => {
     )
 }
 
-const CustomizedTables = ({ dataTable }) => {
+const EncuestaCustomTable = ({ dataTable }) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ 
+        overflowX: 'auto'
+    }}>
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -81,4 +66,4 @@ const CustomizedTables = ({ dataTable }) => {
   );
 }
 
-export default CustomizedTables
+export default EncuestaCustomTable

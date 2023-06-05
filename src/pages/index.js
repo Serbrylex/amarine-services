@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 // next
 import dynamic from 'next/dynamic'
+import Head from 'next/head';
 
 // mui
 import { Box, Typography, Grid, Paper } from '@mui/material'
@@ -127,6 +128,9 @@ const Dashboard = () => {
 
     return (
         <MainLayout>
+            <Head>
+                <title>AMarine | Main Dashboard</title>
+            </Head>
             <Box sx={{
                 display: 'flex',
                 width: '100%',

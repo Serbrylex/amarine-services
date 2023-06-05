@@ -4,6 +4,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AssignmentIndOutlinedIcon from '@mui/icons-material/AssignmentIndOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 export const imageToIcon = (src) => {
 
@@ -25,6 +26,7 @@ const relateIconToName = (name, color = 'inherit') => {
         'AssignmentIndOutlinedIcon': <AssignmentIndOutlinedIcon sx={{ fontSize: '2.2rem' }} />,
         'SettingsOutlinedIcon': <SettingsOutlinedIcon sx={{ fontSize: '27px !important' }} />,
         'LogoutOutlinedIcon': <LogoutOutlinedIcon sx={{ fontSize: '27px !important' }} />,
+        'QuizIcon': <QuizIcon sx={{ fontSize: '27px !important' }} />,
     }
 
     if (name in refs) return refs[name]
