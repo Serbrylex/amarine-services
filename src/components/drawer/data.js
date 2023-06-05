@@ -72,7 +72,19 @@ const useData = () => {
               link: '/empleados',
               icons: null, 
               color: 'primary'
-            }
+            },
+            {
+              title: 'Evaluación',
+              link: '/evaluacion/',
+              icons: null, 
+              color: 'primary'
+            },
+            {
+              title: 'Resultados',
+              link: '/evaluacion/resultados/1/',
+              icons: null, 
+              color: 'primary'
+            },
           ]
         },
         {
