@@ -43,13 +43,6 @@ const Rows = ({ rows }) => {
                             height={30}
                             width={30}
                             fit="cover"
-                            duration={ 3000 }
-                            easing= 'cubic-bezier(0.7, 0, 0.6, 1)'
-                            errorIcon={ true }
-                            shift={null}
-                            distance="100px"
-                            shiftDuration={ 900 }
-                            bgColor="inherit"
                             alt="facebook"
                         />
                     </StyledTableCell>}

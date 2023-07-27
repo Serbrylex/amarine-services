@@ -27,6 +27,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
 } from 'chart.js';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -42,7 +43,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 export const options = {

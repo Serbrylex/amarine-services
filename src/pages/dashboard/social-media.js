@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, Paper } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 // Next
 import dynamic from 'next/dynamic'
@@ -12,7 +12,6 @@ const CustomizedTables = dynamic(() => import('@components/table'), {
     ssr: false,
 })
 
-import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -81,16 +80,16 @@ function createData(image, followers) {
 }
   
 const firstTable = {
-      rows: [
-          createData('/images/facebook.png', 159),
-          createData('/images/Instagram.png', 237),
-          createData('/images/tik-tok.png', 262)
-      ],
-      colums: [
-          'Redes Sociales',
-          'Incremento Seguidores'
-      ]
-  }
+    rows: [
+        createData('/images/facebook.png', 159),
+        createData('/images/Instagram.png', 237),
+        createData('/images/tik-tok.png', 262)
+    ],
+    colums: [
+        'Redes Sociales',
+        'Incremento Seguidores'
+    ]
+}
 
 const createDataTwo = (image) => {
     return {
@@ -125,7 +124,7 @@ const secondTable = {
 
 const SocialMedia = () => {
     const { redes, bigTableData } = GetSocialMedia()
-
+    console.log({ bigTableData })
     return (
         <MainLayout>
             <Typography component='h1' 

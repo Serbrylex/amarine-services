@@ -61,18 +61,18 @@ const useData = () => {
           icons: relateIconToName('AssignmentIndOutlinedIcon'), 
           color: 'primary',
           elements: [
-            {
-              title: 'Pase de Lista',
-              link: '/empleados/lista',
-              icons: null, 
-              color: 'primary'
-            },
-            {
-              title: 'Dashboard',
-              link: '/empleados',
-              icons: null, 
-              color: 'primary'
-            },
+            // {
+            //   title: 'Pase de Lista',
+            //   link: '/empleados/lista',
+            //   icons: null, 
+            //   color: 'primary'
+            // },
+            // {
+            //   title: 'Dashboard',
+            //   link: '/empleados',
+            //   icons: null, 
+            //   color: 'primary'
+            // },
             {
               title: 'Evaluación',
               link: '/evaluacion/',

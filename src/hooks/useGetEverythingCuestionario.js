@@ -4,7 +4,50 @@ import getCookie from '@services/getCookie'
 import axios from 'axios'
 
 const GetEverythingCuestionario = () => {
-    const [questionario, setQuestionario] = useState()
+    const [questionario, setQuestionario] = useState({
+        preguntas: [
+            {
+                pregunta: 'Pregunta número 1',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 2',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 3',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 4',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 5',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 6',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 7',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 8',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 9',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            },
+            {
+                pregunta: 'Pregunta número 10',
+                respuestas: ['Pepe', 'Pepa', 'Pepo', 'Pepi', 'Pepu']
+            }
+        ]
+    })
 
     useEffect(()=>{
         const headers = {

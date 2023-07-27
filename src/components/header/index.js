@@ -1,7 +1,7 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { 
     AppBar, Box, Toolbar, IconButton, Typography, 
-    Menu, Container, Avatar, Button, Tooltip, MenuItem
+    Menu, Container, Button, Tooltip, MenuItem
 } from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -14,37 +14,24 @@ const pages = [];
 
 const Header = () => {
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
   const router = useRouter()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  }
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-
-  const handleLogout = () => {
-    const expiration = new Date(-1).toUTCString()
-    document.cookie = `Token=Token;expires=${expiration};path=/`
-    router.push('login')
   }
 
   return (
     <AppBar position="static" sx={{ height:'10vh', backgroundColor: '#061A23' }}>
       <Container maxWidth="xl" sx={{ height:'100%' }}>
         <Toolbar disableGutters sx={{ height:'100%' }}>
-          <figure style={{ width: 'auto', height: '50px', zIndex: 100, margin: 'auto 0' }} 
+          <figure 
+            style={{ width: 'auto', height: '50px', zIndex: 100, margin: 'auto 0', cursor: 'pointer' }}
+            title='home'
             onClick={()=>router.push('/')}
           >
             <img
@@ -123,7 +110,7 @@ const Header = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} 
+              <IconButton 
                 sx={{ 
                   p: 1, 
                   color: 'white',
@@ -135,26 +122,6 @@ const Header = () => {
                 <PersonIcon />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem onClick={handleLogout}>
-                <Typography textAlign="center">Logout</Typography>
-              </MenuItem>
-            </Menu>
           </Box>
         </Toolbar>
       </Container>

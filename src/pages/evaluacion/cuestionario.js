@@ -95,9 +95,8 @@ const Evaluacion = () => {
     }
 
     const handleSendAnswers = async () => {
-        const resultado = await handleValidateAnswers(respuestas)
 
-        alert(resultado)
+        alert('Excelente, tus respuestas han sido enviadas')
         router.push('/evaluacion/resultados/3/')
     }
 
@@ -151,7 +150,7 @@ const Evaluacion = () => {
                                         padding: '5px 10px',
                                         marginTop: '5px'
                                     }}>
-                                        <Typography sx={{ color: 'white' }}>{pregunta.respuestas[respuestas[ind]].respuesta}</Typography>
+                                        <Typography sx={{ color: 'white' }}>{pregunta.respuestas[respuestas[ind]]}</Typography>
                                         <Typography sx={{ color: '#33B1FF', cursor: 'pointer' }} onClick={()=>handleChangeAnswer(ind)}>
                                             CAMBIAR
                                         </Typography>
@@ -212,7 +211,7 @@ const Evaluacion = () => {
                     <Box>
                         {questionario.preguntas[contadorPreguntas].respuestas.map((res, ind)=>(
                             <Respuesta 
-                                key={ind} num={ind} text={res.respuesta} callback={handleSelectAnswer} 
+                                key={ind} num={ind} text={res} callback={handleSelectAnswer} 
                                 contadorPreguntas={contadorPreguntas} 
                                 currentAnswer={respuestas[contadorPreguntas] !== undefined && respuestas[contadorPreguntas] === ind}
                             />

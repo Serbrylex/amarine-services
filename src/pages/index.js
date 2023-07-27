@@ -25,6 +25,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
 } from 'chart.js';
 
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -43,7 +44,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 export const options = {
@@ -133,147 +135,154 @@ const Dashboard = () => {
             </Head>
             <Box sx={{
                 display: 'flex',
-                width: '100%',
+                flexDirection: 'column',
+                height: '90vh',
                 justifyContent: 'space-around'
             }}>
-                <Box sx={{ width: '40%', height: '45vh'}}>
-                    <Grid container component="main" sx={{ height: '100%', width: '100%' }}>
-                        <Grid item xs={6} sx={{ height: '40%', display: 'flex', alignItems: 'center' }}>
-                            <Item elevation={10} 
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor:'#000000'
-                                }}
-                            >
-                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
-                                    {bajas ? bajas.length : 0}
-                                </Typography>
-                                <Typography>Bajas de ingresos recientes</Typography>
-                            </Item>
-                        </Grid>
-                        <Grid item xs={6} sx={{ height: '40%', display: 'flex', 
-                            alignItems: 'center' }}>
-                            <Item elevation={10} 
-                                sx={{
-                                    backgroundColor: '#59CE8F',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
-                                    {altas ? altas.length : 0}
-                                </Typography>
-                                <Typography>Ingresos recientes</Typography>
-                            </Item>
-                        </Grid>
-                        <Grid item xs={6} 
-                            sx={{ 
-                                height: '60%', display: 'flex', 
-                                flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                            }}>
-                            <Box sx={{ 
-                                width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
-                                padding: '5%', borderRadius: '5px'
-                            }}>
-                                <CircularProgressbar 
-                                    value={movimientos ? movimientos.bajas : 0} 
-                                    text={`${movimientos ? movimientos.bajas : 0}%`} 
-                                />
-                            </Box>
-                            <p>Bajas de ingreso total</p>
-                        </Grid>
-                        <Grid item xs={6} 
-                            sx={{ 
-                                height: '60%', display: 'flex', 
-                                flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                            }}>
-                            <Box sx={{ 
-                                width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
-                                padding: '5%', borderRadius: '5px'
-                            }}>
-                                <CircularProgressbar 
-                                    value={movimientos ? movimientos.altas : 0} 
-                                    text={`${movimientos ? movimientos.altas : 0}%`} 
-                                />
-                            </Box>
-                            <p>Ingresos recientes</p>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box sx={{ width: '55%', height: '45vh'}}>
-                    <Line options={options} data={data} />
-                </Box>
-            </Box>
-            <Box sx={{
-                display: 'flex',
-                width: '80vw',
-                justifyContent: 'space-around'
-            }}>
-                <Box sx={{ width: '45%', height: '40vh', position: 'relative' }}>
-                    <Map sucursales={sucursales}/>
-                </Box>
-                <Box sx={{ width: '45%', height: '40vh'}}>
-                    <Paper sx={{ 
-                        backgroundColor: '#061A23', width: '80%', height: '100%', padding: '5%',
-                        margin: 'auto'
-                    }}>
-                        <Typography component='h3' sx={{ color: 'white', fontSize:'20px' }}>Motivo de renuncia</Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', height: '100%' }}>
-                            <Box>
-                                <Box sx={{ 
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    marginBottom: '5px' 
-                                }}>
-                                    <Box sx={{ 
-                                        width: '20px', height: '20px', backgroundColor: 'red', mr: 1
-                                    }}>
-                                    </Box> 
-                                    <Typography sx={{ color: 'white' }}>Abandono de trabajo</Typography>   
-                                </Box>
-                                <Box sx={{ position: 'relative', height: 'fit-content' }}>
-                                    <Typography sx={{ 
-                                        position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
-                                    }}>
-                                        {motivosBajas ? motivosBajas.abandono : 0}%
+                <Box sx={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'space-around'
+                }}>
+                    <Box sx={{ width: '40%', height: '45vh'}}>
+                        <Grid container component="main" sx={{ height: '100%', width: '100%' }}>
+                            <Grid item xs={6} sx={{ height: '40%', display: 'flex', alignItems: 'center' }}>
+                                <Item elevation={10} 
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        backgroundColor:'#000000'
+                                    }}
+                                >
+                                    <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
+                                        {bajas ? bajas.length : 0}
                                     </Typography>
-                                    <BorderLinearProgress 
-                                        variant="determinate" 
-                                        value={motivosBajas ? motivosBajas.abandono : 0} 
-                                        sx={{backgroundColor:'red'}}
+                                    <Typography>Bajas de ingresos recientes</Typography>
+                                </Item>
+                            </Grid>
+                            <Grid item xs={6} sx={{ height: '40%', display: 'flex', 
+                                alignItems: 'center' }}>
+                                <Item elevation={10} 
+                                    sx={{
+                                        backgroundColor: '#59CE8F',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <Typography sx={{ fontSize:'25px', fontWeight: 'bold' }}>
+                                        {altas ? altas.length : 0}
+                                    </Typography>
+                                    <Typography>Ingresos recientes</Typography>
+                                </Item>
+                            </Grid>
+                            <Grid item xs={6} 
+                                sx={{ 
+                                    height: '60%', display: 'flex', 
+                                    flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                                }}>
+                                <Box sx={{ 
+                                    width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
+                                    padding: '5%', borderRadius: '5px'
+                                }}>
+                                    <CircularProgressbar 
+                                        value={movimientos ? movimientos.bajas : 0} 
+                                        text={`${movimientos ? movimientos.bajas : 0}%`} 
                                     />
                                 </Box>
-                            </Box>
+                                <p>Bajas de ingreso total</p>
+                            </Grid>
+                            <Grid item xs={6} 
+                                sx={{ 
+                                    height: '60%', display: 'flex', 
+                                    flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                                }}>
+                                <Box sx={{ 
+                                    width: '45%', height: 'auto', margin: 'auto', backgroundColor: '#1D232E',
+                                    padding: '5%', borderRadius: '5px'
+                                }}>
+                                    <CircularProgressbar 
+                                        value={movimientos ? movimientos.altas : 0} 
+                                        text={`${movimientos ? movimientos.altas : 0}%`} 
+                                    />
+                                </Box>
+                                <p>Ingresos recientes</p>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <Box sx={{ width: '55%', height: '45vh'}}>
+                        <Line options={options} data={data} />
+                    </Box>
+                </Box>
+                <Box sx={{
+                    display: 'flex',
+                    width: '80vw',
+                    justifyContent: 'space-around'
+                }}>
+                    <Box sx={{ width: '45%', height: '40vh', position: 'relative' }}>
+                        <Map sucursales={sucursales}/>
+                    </Box>
+                    <Box sx={{ width: '45%', height: '40vh'}}>
+                        <Paper sx={{ 
+                            backgroundColor: '#061A23', width: '80%', height: '100%', padding: '5%',
+                            margin: 'auto'
+                        }}>
+                            <Typography component='h3' sx={{ color: 'white', fontSize:'20px' }}>Motivo de renuncia</Typography>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', height: '100%' }}>
+                                <Box>
+                                    <Box sx={{ 
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        marginBottom: '5px' 
+                                    }}>
+                                        <Box sx={{ 
+                                            width: '20px', height: '20px', backgroundColor: 'red', mr: 1
+                                        }}>
+                                        </Box> 
+                                        <Typography sx={{ color: 'white' }}>Abandono de trabajo</Typography>   
+                                    </Box>
+                                    <Box sx={{ position: 'relative', height: 'fit-content' }}>
+                                        <Typography sx={{ 
+                                            position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
+                                        }}>
+                                            {motivosBajas ? motivosBajas.abandono : 0}%
+                                        </Typography>
+                                        <BorderLinearProgress 
+                                            variant="determinate" 
+                                            value={motivosBajas ? motivosBajas.abandono : 0} 
+                                            sx={{backgroundColor:'red'}}
+                                        />
+                                    </Box>
+                                </Box>
 
-                            <Box>
-                                <Box sx={{ 
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    marginBottom: '5px' 
-                                }}>
+                                <Box>
                                     <Box sx={{ 
-                                        width: '20px', height: '20px', backgroundColor: '#DC5F00', mr: 1
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        marginBottom: '5px' 
                                     }}>
-                                    </Box> 
-                                    <Typography sx={{ color: 'white' }}>Renuncia voluntaria</Typography>   
-                                </Box>
-                                <Box sx={{ position: 'relative', height: 'fit-content' }}>
-                                    <Typography sx={{ 
-                                        position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
-                                    }}>
-                                        {motivosBajas ? motivosBajas.renuncia : 0}%
-                                    </Typography>
-                                    <BorderLinearProgress 
-                                        variant="determinate" 
-                                        value={motivosBajas ? motivosBajas.renuncia : 0} sx={{backgroundColor:'#DC5F00'}}
-                                    />
+                                        <Box sx={{ 
+                                            width: '20px', height: '20px', backgroundColor: '#DC5F00', mr: 1
+                                        }}>
+                                        </Box> 
+                                        <Typography sx={{ color: 'white' }}>Renuncia voluntaria</Typography>   
+                                    </Box>
+                                    <Box sx={{ position: 'relative', height: 'fit-content' }}>
+                                        <Typography sx={{ 
+                                            position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, color: 'white', zIndex:2 
+                                        }}>
+                                            {motivosBajas ? motivosBajas.renuncia : 0}%
+                                        </Typography>
+                                        <BorderLinearProgress 
+                                            variant="determinate" 
+                                            value={motivosBajas ? motivosBajas.renuncia : 0} sx={{backgroundColor:'#DC5F00'}}
+                                        />
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
-                    </Paper>
+                        </Paper>
+                    </Box>
                 </Box>
             </Box>
         </MainLayout>
